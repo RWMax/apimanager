@@ -1,5 +1,7 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
+*/src/main/webapp/WEB-INF/classes
+*/src/main/webapp/WEB-INF/lib
 
 ### STS ###
 .apt_generated
