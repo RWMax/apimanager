@@ -6,7 +6,7 @@
 	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	
 	<bean id="mockService" class="com.yinhai.api.ws.impl.MockService">
-		<property name="apiService" ref="apiServiceImpl"></property>
+		<property name="apiService" ref="apiServiceImpl"/>
 	</bean>
 	
 	<jaxws:server serviceClass="com.yinhai.api.ws.IMockService" address="/mockWS">
