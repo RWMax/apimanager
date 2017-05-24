@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+.left-nav{ border-right: 1px solid #ececec;width: 250px;min-height: 50px;padding: 20px 6px; }
+.left-nav .btns-box{ height: 35px; }
+.left-nav .btns-box .btn{ background-color: rgb(224,224,224);height: 30px;width: 115px;border-radius: 0px; padding: 4px 12px;}
+.left-nav ul{ text-align: left;padding: 0px;width: 100%; }
+.left-nav ul li{ list-style-type:none;height: 33px;line-height: 33px;padding: 0px 12px;cursor: pointer;width: 100%;position: relative;}
+.left-nav .folder-li{/*background-color: #ddecf4;*/}
+.left-nav .folder-name{display: block;width: 100%;color: #676a6c;}
+.left-nav .folder-operation{position: absolute;right: 5px;top:0;}
+.left-nav ul li:hover{ background-color: #ddecf4;color: #00b290; }
+.left-nav ul ul li{ /*padding-left: 30px;*/ }
+.left-nav .fa-caret-down{ position: relative; }
+.left-nav .operate{ position: absolute;z-index:1111; right:0;width: 70px;padding:5px 0px;border: 1px solid #ececec;box-shadow: 0 0 5px #ccc;background-color: #fff; }
+.left-nav .operate a{ display: inline-block;width: 70px;line-height: 30px; }
+.left-nav .active-bar{ border-left: 4px solid #00b290;background-color: #ddecf4;color: #00b290; }
+.left-nav .active-btn{ color: #00b290; }
+.right-content{ width: 100%;float: right;}
+.text-ellipsis{overflow: hidden;text-overflow: ellipsis;white-space:nowrap;word-break:keep-all; }

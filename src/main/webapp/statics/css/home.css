@@ -1,0 +1,7 @@
+@CHARSET "UTF-8";
+.content-box{ padding: 60px 80px; }
+.content-box .i-box{ margin-top: 60px; }
+.content-box .i-box .box{ height: 60px;cursor: pointer; }
+.content-box .i-box .box .icon{ height:40px;padding: 10px; }
+.content-box .i-box .box:hover .fa{ color:#1ab394; }
+.content-box .i-box .box:hover h3{ color:#1ab394; }

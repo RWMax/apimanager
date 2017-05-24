@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+.content-box{ padding: 20px 20px; }
+.content-box .info1-box{padding-left:30px; color: #333;}
+.content-box .brb{ border-bottom: 1px solid #efefef;padding-bottom: 15px; }
+.content-box .brb p{ margin:10px 0 0 0;}
+.content-box .info1-box>span{ word-break:keep-all; white-space:nowrap;display:inline-block;padding: 5px 5px 5px 0px; }
+.content-box .info1-box select { height: 26px;border: 1px solid #ddd; }
+.content-box .info3-box .variable i{ border-radius:3px;cursor: pointer;background-color: #ccc;color:#000;padding:3px 8px;margin-right: 5px; }
+.content-box .info5-box{ padding-bottom: 0px; }
+.content-box .info5-box .btns-box .btn{ display: inline-block; }
+.content-box .info5-box .btns-box .active-btn{ border-bottom: 1px solid #c50000;color:#c50000; }
+.content-box .info5-box .btns-box .btn:hover{ color:#c50000; }
+.content-box .info6-box,.content-box .info7-box{ padding-top: 15px; }
+.content-box table{ margin-bottom:10px; }
+.content-box table,.content-box tr,.content-box td{ border: 1px solid #dddddd; }
+.content-box td{ height: 35px; }
+.content-box td input{ border: 0px;width: 100%; }
+.content-box td input:focus { outline: 0;}
+.content-box .add_btns{ padding-left: 15px; }
+.content-box .info8-box textarea{ height: 150px; }
+
+.content-box .save{ position: fixed;bottom: 0;left: 50%; }
+.content-box .save .save-btn{ height: 80px;width: 80px;margin-left:-40px;line-height:80px;background-color: rgba(219,68,55,1);border-radius: 50%;cursor: pointer; border: none;}
+.content-box .save .save-btn:hover{ background-color: rgba(219,68,55,0.8); outline: none;}
+.content-box .save .save-btn:ACTIVE,.content-box .save .save-btn:AFTER,.content-box .save .save-btn:FOCUS,.content-box .save .save-btn:VISITED {outline: none;}

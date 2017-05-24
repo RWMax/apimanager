@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+.content-box{ padding: 15px 30px; }
+.content-box table,.content-box tr,.content-box td{ border: 1px solid #dddddd; }
+.content-box td{ height: 30px; }
+.json-box{padding: 0 30px; margin-top:-15px;height:250px; min-height: 150px;}
+.xml-box{margin: 0 30px; margin-top:-15px; min-height: 100px;max-height: 250px;border: 1px solid #ddd;padding:6px;color: #FFF;background-color: #1ab394;}
+/* .result-box .ace-jsoneditor{font-size: 12px !important;} */
+
+.code-editor{width: 100%;height: 90px;padding:15px;border: none;resize: none; background-color: #272822;color: #CFBFAF;font-family: Courier New;font-size: 12px;outline: 0;}

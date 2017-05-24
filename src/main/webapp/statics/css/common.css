@@ -1,0 +1,45 @@
+@CHARSET "UTF-8";
+.float-l { float: left; }
+.float-r { float: right; }
+
+/** 定义 12px ~ 30px */
+.fs-12 { font-size: 12px !important; }
+.fs-13 { font-size: 13px; }
+.fs-14 { font-size: 14px; }
+.fs-15 { font-size: 15px; }
+.fs-16 { font-size: 16px; }
+.fs-17 { font-size: 17px; }
+.fs-18 { font-size: 18px; }
+.fs-19 { font-size: 19px; }
+.fs-20 { font-size: 20px; }
+.fs-21 { font-size: 21px; }
+.fs-22 { font-size: 22px; }
+.fs-23 { font-size: 23px; }
+.fs-24 { font-size: 24px; }
+.fs-25 { font-size: 25px; }
+.fs-26 { font-size: 26px; }
+.fs-27 { font-size: 27px; }
+.fs-28 { font-size: 28px; }
+.fs-29 { font-size: 29px; }
+.fs-30 { font-size: 30px; }
+.fs-36 { font-size: 36px; }
+.fs-37 { font-size: 37px; }
+.fs-38 { font-size: 38px; }
+.fs-39 { font-size: 39px; }
+.fs-40 { font-size: 40px; }
+/** 常用颜色 */
+.color-w { color: #fff !important;; }
+.color-2 { color: #222 !important;; }
+.color-3 { color: #333 !important;; }
+.color-4 { color: #444 !important;; }
+.color-6 { color: #666 !important;; }
+.color-9 { color: #999 !important;; }
+.color-red{ color: #F00 !important;; }
+.color-green{color: #00B290 !important;}
+
+/** 常用属性 */
+.bgs-img { background-position: center; background-repeat: no-repeat; background-size: contain; }
+.bgs-img0 { background-position: center; background-repeat: no-repeat; }
+.bgs-img1 { background-position: center; background-repeat: no-repeat; background-size: cover; }
+.bgs-img2 { background-position: center; background-repeat: no-repeat; background-size: 100% 100%; }
+.display{ display:none !important; }

@@ -1,0 +1,14 @@
+<!DOCTYPE dwr PUBLIC
+    "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN"
+    "http://getahead.org/dwr/dwr30.dtd">
+<dwr>
+  <allow>
+    <create creator="new" javascript="MessagePush">
+      <param name="class" value="com.yinhai.plugin.dwr.message.MessagePush"/>
+    </create>
+   <!--  <create creator="spring" javascript="CaptchaProducer">
+	  <param name="beanName" value="captchaProducer"/>
+	  <param name=location value="beans.xml"/>
+	</create> -->
+  </allow>
+</dwr>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinhai.api.common.domain.dao.ModuleMapper" >
+  <resultMap id="BaseResultMap" type="com.yinhai.api.common.domain.Module" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="lastUpdateTime" property="lastupdatetime" jdbcType="TIMESTAMP" />
+    <result column="projectId" property="projectid" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yinhai.api.common.domain.ModuleWithBLOBs" extends="BaseResultMap" >
+    <result column="requestHeaders" property="requestheaders" jdbcType="LONGVARCHAR" />
+    <result column="requestArgs" property="requestargs" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, lastUpdateTime, projectId, createTime
+  </sql>
+  <sql id="Blob_Column_List" >
+    requestHeaders, requestArgs
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from module
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from module
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yinhai.api.common.domain.ModuleWithBLOBs" >
+    insert into module (id, name, lastUpdateTime, 
+      projectId, createTime, requestHeaders, 
+      requestArgs)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{lastupdatetime,jdbcType=TIMESTAMP}, 
+      #{projectid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{requestheaders,jdbcType=LONGVARCHAR}, 
+      #{requestargs,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinhai.api.common.domain.ModuleWithBLOBs" >
+    insert into module
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="lastupdatetime != null" >
+        lastUpdateTime,
+      </if>
+      <if test="projectid != null" >
+        projectId,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="requestheaders != null" >
+        requestHeaders,
+      </if>
+      <if test="requestargs != null" >
+        requestArgs,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="lastupdatetime != null" >
+        #{lastupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectid != null" >
+        #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestheaders != null" >
+        #{requestheaders,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="requestargs != null" >
+        #{requestargs,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinhai.api.common.domain.ModuleWithBLOBs" >
+    update module
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="lastupdatetime != null" >
+        lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectid != null" >
+        projectId = #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestheaders != null" >
+        requestHeaders = #{requestheaders,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="requestargs != null" >
+        requestArgs = #{requestargs,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yinhai.api.common.domain.ModuleWithBLOBs" >
+    update module
+    set name = #{name,jdbcType=VARCHAR},
+      lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP},
+      projectId = #{projectid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      requestHeaders = #{requestheaders,jdbcType=LONGVARCHAR},
+      requestArgs = #{requestargs,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinhai.api.common.domain.Module" >
+    update module
+    set name = #{name,jdbcType=VARCHAR},
+      lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP},
+      projectId = #{projectid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

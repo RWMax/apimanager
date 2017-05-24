@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+.navbar{ margin-bottom: 0; }
+.mode-btnbox a{ font-weight:bold;display: inline-block;height: 57px;line-height: 57px;border-bottom: 2px solid #ccc; }
+.mode-btnbox a:hover{ border-bottom: 2px solid #db4437;color:#db4437; }
+.mode-btnbox .active{ border-bottom: 2px solid #db4437;color:#db4437; }
+.mode-btnbox{ position: fixed;top:0px;left: 45%; }
+
+nav.page-tabs {overflow: visible;}
+.content-tabs{ position: relative; }
+.content-tabs .add_module{ position: absolute;top:0;left: 40px;width: 40px;text-align: center;border-right: 1px solid #ececec; }
+.content-tabs .add_module span{ line-height: 40px; }
+.page-tabs .J_menuTab{ position: relative; }
+.page-tabs .J_menuTab .caret{position: relative;width: 10px;height: 10px;margin-top: 3px;}
+.page-tabs .J_menuTab .caret .caret-op{  color: #4e4e4e; min-width: 70px;text-align:center; position: absolute;top: 10px;right: 0;z-index: 999;background-color: #FFF;  box-shadow: 0 5px 5px #ccc;border: 1px solid #ddd;padding: 10px 0;}
+.page-tabs .J_menuTab .caret .caret-op div{  line-height: 20px;padding: 5px 10px;cursor: pointer;}
+.page-tabs .J_menuTab .caret .caret-op div i {color: #333;}
+.page-tabs .J_menuTab .operate{ position: absolute;top: 50px;left: 0; }
+.page-tabs{ left: 40px;position: absolute; }
+.more-menus{ width: 241px;padding-top: 20px; }
+.more-menus a{ display: inline-block;width: 78;line-height: 30px;text-align: center; }
+.more-menus a i{ padding-right: 5px; }
+
+.content-tabs{background-color: #FFF; border-bottom: solid 2px #1ab394;}
+.page-tabs a.active,.page-tabs a.active:hover {  background: #00B290;color: #FFF;}
+body.mini-navbar .nav-header{padding:20px 0;background:#2f4050;}

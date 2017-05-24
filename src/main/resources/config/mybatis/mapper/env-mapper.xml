@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="api_env">
+	<resultMap id="envMap" type="com.yinhai.api.common.domain.Environments">
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+	</resultMap>
+	<resultMap id="environListMap" type="com.yinhai.api.common.domain.EnvironmentsList">
+		<result column="paramName" property="paramname"/>
+		<result column="paramValue" property="paramvalue"/>
+	</resultMap>
+	<!-- 查询环境列表 -->
+	<select id="getEnvList" parameterType="map" resultType="map">
+		SELECT 
+			a.name as name,
+			b.envId as envId,
+			b.paramName as paramName,
+			b.paramValue as paramValue
+		FROM environments a,environments_list b
+		WHERE 1 = 1
+		AND a.projectId = #{projectId}
+		AND b.envId = a.id
+		ORDER BY b.envId
+	</select>
+	<select id="getEnvCount" parameterType="map" resultType="map">
+		SELECT 
+			b.envId as envId,
+			count(b.envId) as count
+		FROM environments a,environments_list b
+		WHERE 1 = 1
+		AND a.projectId = #{projectId}
+		AND b.envId = a.id
+		GROUP BY b.envId
+		ORDER BY b.envId
+	</select>
+	<!-- 查询环境详情 -->
+	<select id="getEnvByEnvid" parameterType="map" resultType="map">
+		SELECT
+			a.name as name,
+			b.id as id,
+			b.envId as envId,
+			b.paramName as paramName,
+			b.paramValue as paramValue
+		FROM environments a,environments_list b
+		WHERE 1 = 1
+		AND a.id = #{envId}
+		AND b.envId = a.id
+	</select>
+	<!-- 查询工程环境名称(返回map) -->
+	<select id="getProjectEnvNames" parameterType="java.lang.Integer" resultType="map">
+		select
+			id,
+		name,
+		projectId
+		from environments
+		where projectId = #{projectId}
+	</select>
+	<!-- 查询工程环境名称(返回实体类) -->
+	<select id="getProjectEnvironments" parameterType="java.lang.Integer" resultMap="envMap">
+		select
+			id,
+			name
+		from environments
+		where projectId = #{projectId}
+	</select>
+	<!-- 查询环境参数(返回map) -->
+	<select id="getEnvParamList" parameterType="java.lang.Integer" resultType="map">
+		select
+		id,
+		envId,
+			paramName,
+			paramValue
+		from environments_list
+		where envId = #{envId}
+	</select>
+	<!-- 查询环境参数(返回实体类) -->
+	<select id="getEnvironmentLists" parameterType="java.lang.Integer" resultMap="environListMap">
+		select
+			paramName,
+			paramValue
+		from environments_list
+		where envId = #{envId}
+	</select>
+	
+	<!-- 新增线上环境 -->
+	<insert id="insertEnv" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO environments
+		(
+			name,<!-- 环境名称 -->
+			projectId<!-- 工程id -->
+		)values(
+			#{env_name},
+			#{projectId}
+		)
+	</insert>
+	<!--带主键insert-->
+	<insert id="insertEnvironments" parameterType="map">
+		insert into environments(
+		id,
+		name,
+		projectId
+		)VALUES (
+		#{id},
+		#{name},
+		#{projectId}
+		)
+	</insert>
+	<!-- 新增变量值 -->
+	<insert id="insertEnvValue" parameterType="java.util.List">
+		INSERT INTO environments_list
+		(
+			envId,
+			paramName,
+			paramValue
+		)values
+		<foreach collection="list" item="item" index="index" separator="," >  
+        	(#{item.envId},#{item.paramName},#{item.paramValue})  
+    	</foreach>  
+	</insert>
+	<!--带主键insert-->
+	<insert id="insertEnvironmentLists" parameterType="map">
+		insert into environments_list(
+		id,
+		envId,
+		paramName,
+		paramValue
+		)VALUES (
+		#{id},
+		#{envId},
+		#{paramName},
+		#{paramValue}
+		)
+	</insert>
+	<!-- 删除 -->
+	<delete id="deleteEnv" parameterType="map">
+		DELETE FROM
+			environments
+		WHERE id = #{envId}
+	</delete>
+	<delete id="deleteEnvs" parameterType="java.lang.Integer">
+		DELETE FROM environments
+		where projectId = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteEnvLists" parameterType="java.lang.Integer">
+		DELETE FROM
+		environments_list
+		WHERE envId in (select envId from environments where projectId = #{id,jdbcType=INTEGER})
+	</delete>
+	<delete id="deleteEnvList" parameterType="map">
+		DELETE FROM
+			environments_list
+		WHERE envId = #{envId}
+	</delete>
+	<!-- 环境编辑-->
+	<update id="updateEnvByEnvid" parameterType="map">
+		update environments
+		set name = #{env_name}
+		where id = #{envId} 
+	</update>
+	<update id="updateforNext" parameterType="map">
+		update project
+		set envId = (select min(id) from environments where projectId = #{projectId})
+		where id = #{projectId}
+	</update>
+	<!-- 批量删除 -->
+	<delete id="deleteEnvListMuilt" parameterType="map">
+		DELETE FROM environments_list
+		WHERE  id in
+		<foreach collection="paramId" item="item" index="index" open="("
+                separator="," close=")">
+                #{item}
+        </foreach>
+	</delete>
+	<update id="updateEnvItems" parameterType="map">
+		update environments_list
+		set paramName = #{paramName},
+			paramValue = #{paramValue}
+		where id = #{id}
+	</update>
+	<!-- 环境复制 -->
+	<insert id="insertNewCopy" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO environments 
+		(
+			name,
+			projectId
+		) SELECT 
+			concat("Copy Of",name),
+			projectId
+		FROM environments 
+		WHERE id = #{envId}
+		
+	</insert>
+		<insert id="insertNewCopyList" parameterType="map">
+		INSERT INTO environments_list
+		(
+			envId,
+			paramName,
+			paramValue
+		) SELECT 
+			(select id from environments where id = #{id}),
+			paramName,
+			paramValue
+		FROM environments_list 
+		WHERE envId = #{envId}
+		
+	</insert>
+</mapper>

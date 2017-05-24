@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="interface" >
+  <resultMap id="BaseResultMap" type="com.yinhai.api.common.domain.Interface" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="folderId" property="folderid" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="requestMethod" property="requestmethod" jdbcType="VARCHAR" />
+    <result column="contentType" property="contenttype" jdbcType="VARCHAR" />
+    <result column="requestRootElement" property="requestrootelement" jdbcType="VARCHAR" />
+    <result column="responseRootElement" property="responserootelement" jdbcType="VARCHAR" />
+    <result column="moduleId" property="moduleid" jdbcType="INTEGER" />
+    <result column="projectId" property="projectid" jdbcType="INTEGER" />
+    <result column="lastUpdateTime" property="lastupdatetime" jdbcType="DATE"/>
+    <result column="createTime" property="createtime" jdbcType="DATE"/>
+    <result column="dataType" property="datatype" jdbcType="VARCHAR" />
+    <result column="protocol" property="protocol" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yinhai.api.common.domain.InterfaceWithBLOBs" extends="BaseResultMap" >
+   <result column="example" jdbcType="LONGVARCHAR" property="example" />
+    <result column="requestHeaders" jdbcType="LONGVARCHAR" property="requestheaders" />
+    <result column="requestArgs" jdbcType="LONGVARCHAR" property="requestargs" />
+    <result column="responseArgs" jdbcType="LONGVARCHAR" property="responseargs" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, description, folderId, url, requestMethod, contentType, requestRootElement,
+    responseRootElement, moduleId, projectId, DATE_FORMAT(lastUpdateTime,"%Y-%m-%d %T") AS lastUpdateTime,
+    DATE_FORMAT(createTime,"%Y-%m-%d %T") AS createTime, dataType, protocol,
+    status
+  </sql>
+  <sql id="Blob_Column_List" >
+    example, requestHeaders, requestArgs, responseArgs
+  </sql>
+  
+  <select id="getApiByID" resultMap="ResultMapWithBLOBs" parameterType="integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from interface
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryApisByFolderId" resultMap="BaseResultMap" parameterType="integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from interface
+    where folderId = #{id,jdbcType=INTEGER}
+    and status = 'ENABLE'
+  </select>
+
+  <select id="queryApiBlobsByFolderId" resultMap="ResultMapWithBLOBs" parameterType="integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from interface
+    where folderId = #{id,jdbcType=INTEGER}
+    and status = 'ENABLE'
+  </select>
+  <select id="queryApiBlobList" resultType="map" parameterType="integer">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List"/>
+    from interface
+    where folderId = #{id,jdbcType=INTEGER}
+    and status = 'ENABLE'
+  </select>
+  <resultMap id="WSMap" type="com.yinhai.api.common.domain.InterfaceWS" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="apiId" property="apiid" jdbcType="INTEGER" />
+    <result column="targetNamespace" property="targetnamespace" jdbcType="VARCHAR" />
+    <result column="endpointAddress" property="endpointaddress" jdbcType="VARCHAR" />
+    <result column="methodName" property="methodname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="WS_Column_List" >
+    id, apiId, targetNamespace, endpointAddress, methodName
+  </sql>
+  
+  <select id="selectApiWsByapiId" resultMap="WSMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="WS_Column_List" />
+    from interface_ws
+    where apiId = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteApiWsByapiId" parameterType="java.lang.Integer" >
+    delete from interface_ws
+    where apiId = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertApi" parameterType="com.yinhai.api.common.domain.InterfaceWithBLOBs" useGeneratedKeys="true" keyProperty="id">
+    insert into interface (name, description, 
+      folderId, url, requestMethod, 
+      contentType, requestRootElement, responseRootElement, 
+      moduleId, projectId, lastUpdateTime, 
+      createTime, dataType, protocol, 
+      status, example, requestHeaders, 
+      requestArgs, responseArgs)
+    values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{folderid,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{requestmethod,jdbcType=VARCHAR}, 
+      #{contenttype,jdbcType=VARCHAR}, #{requestrootelement,jdbcType=VARCHAR}, #{responserootelement,jdbcType=VARCHAR}, 
+      #{moduleid,jdbcType=INTEGER}, #{projectid,jdbcType=INTEGER}, now(), 
+      now(), #{datatype,jdbcType=VARCHAR}, #{protocol,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{example,jdbcType=LONGVARCHAR}, #{requestheaders,jdbcType=LONGVARCHAR}, 
+      #{requestargs,jdbcType=LONGVARCHAR}, #{responseargs,jdbcType=LONGVARCHAR})
+  </insert>
+  <!--带主键insert-->
+  <insert id="insertInterfaceInfo" parameterType="map">
+    insert  into interface(
+    id,
+    name,
+    description,
+    example,
+    folderId,
+    url,
+    requestMethod,
+    contentType,
+    requestHeaders,
+    requestArgs,
+    requestRootElement,
+    responseArgs,
+    responseRootElement,
+    moduleId,
+    projectId,
+    lastUpdateTime,
+    createTime,
+    dataType,
+    protocol,
+    status
+    )VALUES (
+    #{id},
+    #{name},
+    #{description},
+    #{example},
+    #{folderId},
+    #{url},
+    #{requestMethod},
+    #{contentType},
+    #{requestHeaders},
+    #{requestArgs},
+    #{requestRootElement},
+    #{responseArgs},
+    #{responseRootElement},
+    #{moduleId},
+    #{projectId},
+    #{lastUpdateTime},
+    #{createTime},
+    #{dataType},
+    #{protocol},
+    #{status}
+    )
+  </insert>
+  <insert id="insertApiWs" parameterType="com.yinhai.api.common.domain.InterfaceWS" >
+    insert into interface_ws (apiId, targetNamespace, 
+      endpointAddress, methodName)
+    values (#{apiid,jdbcType=INTEGER}, #{targetnamespace,jdbcType=VARCHAR}, 
+      #{endpointaddress,jdbcType=VARCHAR}, #{methodname,jdbcType=VARCHAR})
+  </insert>
+  <!--带主键insert-->
+  <insert id="insertApiWsInfo" parameterType="map">
+    insert into interface_ws(
+    id,
+    apiId,
+    targetNamespace,
+    endpointAddress,
+    methodName
+    )VALUES (
+    #{id},
+    #{apiid},
+    #{targetnamespace},
+    #{endpointaddress},
+    #{methodname}
+    )
+  </insert>
+  
+  <update id="updateApi" parameterType="com.yinhai.api.common.domain.InterfaceWithBLOBs">
+    update interface
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="folderid != null">
+        folderId = #{folderid,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="requestmethod != null">
+        requestMethod = #{requestmethod,jdbcType=VARCHAR},
+      </if>
+      <if test="contenttype != null">
+        contentType = #{contenttype,jdbcType=VARCHAR},
+      </if>
+      <if test="requestrootelement != null" >
+        requestRootElement = #{requestrootelement,jdbcType=VARCHAR},
+      </if>
+      <if test="responserootelement != null" >
+        responseRootElement = #{responserootelement,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleid != null">
+        moduleId = #{moduleid,jdbcType=INTEGER},
+      </if>
+      <if test="projectid != null">
+        projectId = #{projectid,jdbcType=INTEGER},
+      </if>
+        lastUpdateTime = now(),
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datatype != null">
+        dataType = #{datatype,jdbcType=VARCHAR},
+      </if>
+      <if test="protocol != null">
+        protocol = #{protocol,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="example != null">
+        example = #{example,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="requestheaders != null">
+        requestHeaders = #{requestheaders,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="requestargs != null">
+        requestArgs = #{requestargs,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="responseargs != null">
+        responseArgs = #{responseargs,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateApiWs" parameterType="com.yinhai.api.common.domain.InterfaceWS" >
+    update interface_ws
+    <set >
+      <if test="targetnamespace != null" >
+        targetNamespace = #{targetnamespace,jdbcType=VARCHAR},
+      </if>
+      <if test="endpointaddress != null" >
+        endpointAddress = #{endpointaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="methodname != null" >
+        methodName = #{methodname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where apiId = #{apiid,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteByFolderId" parameterType="java.lang.Integer" >
+    delete from interface
+    where folderId = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from interface
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

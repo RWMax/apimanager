@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE generatorConfiguration PUBLIC 
+"-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" 
+"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+	<properties resource="generator.properties" />
+
+	<classPathEntry location="${gen.classpath}" />
+	
+	<context id="db1" targetRuntime="MyBatis3">
+		<!-- 注释 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" /><!-- 是否取消注释 -->
+			<property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳 -->
+		</commentGenerator>
+
+		<jdbcConnection driverClass="${gen.jdbc.driverClassName}"
+			connectionURL="${gen.jdbc.url}" userId="${gen.jdbc.username}"
+			password="${gen.jdbc.password}">
+		</jdbcConnection>
+
+		<!-- 类型转换 -->
+		<javaTypeResolver>
+			<!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- 生成实体类地址 -->
+		<javaModelGenerator targetPackage="${gen.mpackage}"
+			targetProject="${gen.project}">
+			<!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+			<property name="enableSubPackages" value="false" />
+			<!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- 生成mapxml文件 -->
+		<sqlMapGenerator targetPackage="${gen.xpackage}"
+			targetProject="${gen.project}">
+			<!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+
+		<!-- 生成mapxml对应client，也就是接口dao -->
+		<javaClientGenerator targetPackage="${gen.dpackage}"
+			targetProject="${gen.project}" type="XMLMAPPER">
+			<!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+
+		<table tableName="interface_ws" domainObjectName="InterfaceWS"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table>
+		
+		<!-- <table tableName="interface_folder" domainObjectName="InterfaceFolder"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table>
+		<table tableName="module" domainObjectName="Module"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table>-->
+		<!-- <table tableName="project" domainObjectName="Project"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table> -->
+		<!--
+		<table tableName="project_user" domainObjectName="ProjectUser"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table>
+		<table tableName="team" domainObjectName="Team"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table> -->
+		<!-- <table tableName="team_user" domainObjectName="TeamUser"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table> -->
+		<!-- <table tableName="user" domainObjectName="User"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table> -->
+		<!-- <table tableName="environments" domainObjectName="Environments"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table>
+		<table tableName="environments_list" domainObjectName="EnvironmentsList"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table> -->
+	</context>
+</generatorConfiguration> 

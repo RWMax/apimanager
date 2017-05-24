@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="module" >
+  <resultMap id="moduleMap" type="com.yinhai.api.common.domain.Module" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="lastUpdateTime" property="lastupdatetime" jdbcType="DATE"/>
+    <result column="projectId" property="projectid" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="DATE"/>
+  </resultMap>
+  <resultMap id="moduleMapWithBLOBs" type="com.yinhai.api.common.domain.ModuleWithBLOBs" extends="moduleMap" >
+    <result column="requestHeaders" property="requestheaders" jdbcType="LONGVARCHAR" />
+    <result column="requestArgs" property="requestargs" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, DATE_FORMAT(lastUpdateTime,"%Y-%m-%d %T") AS lastUpdateTime, projectId, DATE_FORMAT(createTime,"%Y-%m-%d
+    %T") AS createTime
+  </sql>
+  <sql id="Blob_Column_List" >
+    requestHeaders, requestArgs
+  </sql>
+  
+  <select id="queryModulesByProjectId" resultMap="moduleMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from module
+    where projectId = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="queryModules" resultType="map" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List"/>
+    from module
+    where projectId = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getModuleById" resultMap="moduleMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from module
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+   <insert id="insertModule" parameterType="com.yinhai.api.common.domain.ModuleWithBLOBs" useGeneratedKeys="true" keyProperty="id">
+    insert into module
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        name,
+      </if>
+        lastUpdateTime,
+      <if test="projectid != null" >
+        projectId,
+      </if>
+        createTime,
+      <if test="requestheaders != null" >
+        requestHeaders,
+      </if>
+      <if test="requestargs != null" >
+        requestArgs,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="projectid != null" >
+        #{projectid,jdbcType=INTEGER},
+      </if>
+       	now(),
+      <if test="requestheaders != null" >
+        #{requestheaders,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="requestargs != null" >
+        #{requestargs,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!--带主键insert-->
+  <insert id="insertModuleInfo" parameterType="map">
+    insert into module(
+    id,
+    name,
+    lastUpdateTime,
+    projectId,
+    createTime,
+    requestHeaders,
+    requestArgs
+    )VALUES (
+    #{id},
+    #{name},
+    #{lastUpdateTime},
+    #{projectId},
+    #{createTime},
+    #{requestHeaders},
+    #{requestArgs}
+    )
+  </insert>
+  <update id="updateModule" parameterType="com.yinhai.api.common.domain.ModuleWithBLOBs" >
+    update module
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+        lastUpdateTime = now(),
+      <if test="projectid != null" >
+        projectId = #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestheaders != null" >
+        requestHeaders = #{requestheaders,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="requestargs != null" >
+        requestArgs = #{requestargs,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteModule" parameterType="java.lang.Integer" >
+    delete from module
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

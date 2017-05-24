@@ -1,0 +1,32 @@
+@CHARSET "UTF-8"; 
+.left-nav{ height: 100%;width: 220px;box-shadow: 2px 4px 6px #a6a6a6;position: fixed;top:0;left:0;z-index: 1111; }
+.left-nav .logo{ background-image: url(../image/logo_01.png);background-repeat: no-repeat;height: 140px;background-size:77px 72px;background-position: center 50px; }
+.left-nav .pd-left{ padding-left: 25px; }
+.left-nav .search-box{ height:50px;line-height:50px;border-bottom: 1px solid #dddddd; }
+.left-nav .search-box i{ cursor: pointer; }
+.left-nav .search-box input[type="text"]{ width: 150px;height: 30px;border: 0px; line-height: 30px;}
+.left-nav .search-box input:focus { outline: 0;}
+.left-nav .add-box{ cursor:pointer;height: 65px;line-height:65px;border-bottom: 1px solid #dddddd; }
+.left-nav .add-box:hover{ background-color: #ececec;color: #1ab394; }
+.left-nav .add-box:hover span{ color: #1ab394; }
+.left-nav .brb{ border-bottom: 1px solid #dddddd; }
+.left-nav .pro-box .pro-title{ line-height: 50px; }
+.left-nav .pro-box .item{ height: 40px;line-height: 40px;cursor: pointer; }
+.left-nav .pro-box .item:hover{ background-color: #ececec;color: #1ab394; }
+.left-nav .pro-box .item:hover span{ color: #1ab394; }
+.navbar{ height: 50px;background-color: #ffffff;padding-right: 30px; }
+.navbar span{ display:inline-block;width:80px;line-height: 50px;text-align: center;cursor: pointer; }
+.navbar span:hover{ background-color: #ccc;color: #333; }
+.navbar .navbar-right{ position: relative; }
+.navbar .navbar-right .list{ position: absolute;width: 280px;top:50px;right:0;border: 1px #ececec solid; }
+.navbar .navbar-right .list .info-box{ padding: 13px 20px;height: 76px; }
+.navbar .navbar-right img{ width: 50px;height: 50px;border-radius: 50%;margin-right: 15px; }
+.navbar .navbar-right ul{ background-color: #f9f9f9;margin: 0;margin:0;padding:0 }
+.navbar .navbar-right .brb{ border-bottom: 1px #ececec solid; }
+.navbar .navbar-right ul li{ list-style-type: none;line-height: 40px;padding-left: 30px;cursor: pointer; }
+/*个人中心*/
+.left-nav .person_nav{ margin-top: 40px; }
+.left-nav .person_nav ul{ margin: 0;padding: 0px; }
+.left-nav .person_nav li{ list-style-type: none;line-height: 45px;padding-left: 60px;cursor: pointer;margin-bottom: 10px; }
+.left-nav .person_nav li:hover{ background-color: #f9f9f9;color: #1ab394; }
+.navbar .back{ display:inline-block;width:100px;border-right: 1px #ececec solid; }

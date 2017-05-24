@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+    
+    <!-- 配置properties -->
+    <!-- <context:property-placeholder location="classpath:jdbc.properties;classpath:redis.properties" /> -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="locations">
+    		<list>
+				<value>classpath:config/datasource/jdbc.properties</value>
+				<value>classpath:config/email/email.properties</value>
+    		</list>
+    	</property>
+    </bean>
+</beans>

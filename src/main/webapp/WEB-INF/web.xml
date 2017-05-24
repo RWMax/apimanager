@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+	<context-param>
+  		<param-name>contextConfigLocation</param-name>
+  		<param-value>classpath:config/applicationContext.xml</param-value>
+  	</context-param>
+    <listener>
+	  	<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	<listener>
+    	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  	</listener>
+  	<listener>
+	    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<!-- POST中文乱码解决方案 -->
+  <filter>  
+    <filter-name>CharacterEncodingFilter</filter-name>  
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>  
+        <param-name>encoding</param-name>  
+        <param-value>utf-8</param-value>  
+    </init-param>  
+    <async-supported>true</async-supported>
+  </filter>  
+  
+  <!-- 配置Shiro过滤器,先让Shiro过滤系统接收到的请求 -->  
+  <!-- 这里filter-name必须对应applicationContext.xml中定义的<bean id="shiroFilter"/> -->  
+  <!-- 使用[/*]匹配所有请求,保证所有的可控请求都经过Shiro的过滤 -->  
+  <!-- 通常会将此filter-mapping放置到最前面(即其他filter-mapping前面),以保证它是过滤器链中第一个起作用的 -->  
+  <filter>  
+      <filter-name>shiroFilter</filter-name>  
+      <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>  
+      <init-param>
+          <!-- 该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理 -->  
+          <param-name>targetFilterLifecycle</param-name>  
+          <param-value>true</param-value>  
+      </init-param>
+      <async-supported>true</async-supported>
+  </filter>
+  
+  <filter-mapping>  
+      <filter-name>shiroFilter</filter-name>  
+      <url-pattern>/*</url-pattern>  
+  </filter-mapping> 
+  <filter-mapping>  
+    <filter-name>CharacterEncodingFilter</filter-name>  
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <!-- spring mvc servlet -->
+  <servlet>  
+    <servlet-name>spring</servlet-name>  
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
+    <init-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>classpath:config/spring-mvc.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>  
+    <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>spring</servlet-name>  
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
+  <!-- dwr Servlet -->
+  <servlet>
+	  <display-name>DWR Servlet</display-name>
+	  <servlet-name>dwr-invoker</servlet-name>  
+	  <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+	  <init-param>
+	     <param-name>debug</param-name>
+	     <param-value>true</param-value>
+	  </init-param>
+	  <!-- 开启反向Ajax -->
+	  <init-param>
+	    <param-name>activeReverseAjaxEnabled</param-name>
+	    <param-value>true</param-value>
+	  </init-param>
+	  <!-- 自定义的scriptSession manager -->
+	  <init-param>
+	    <param-name>org.directwebremoting.extend.ScriptSessionManager</param-name>
+	    <param-value>com.yinhai.plugin.dwr.DWRScriptSessionManager</param-value>
+	  </init-param>
+	  <!-- 开启 polling mode, 默认 poll rate 5000-->
+	  <init-param>
+  		<param-name>org.directwebremoting.extend.ServerLoadMonitor</param-name>
+  		<param-value>org.directwebremoting.impl.PollingServerLoadMonitor</param-value>
+	  </init-param>
+	  <init-param>
+  		<param-name>disconnectedTime</param-name>
+  		<param-value>60000</param-value>
+	  </init-param>
+  </servlet>
+  <servlet-mapping>
+	  <servlet-name>dwr-invoker</servlet-name>
+	  <url-pattern>/dwr/*</url-pattern>
+  </servlet-mapping>
+	
+  <!-- webservice -->
+  <servlet> 
+	<description>m CXF Endpoint</description> 
+	<display-name>cxf</display-name> 
+	<servlet-name>cxf</servlet-name> 
+	<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class> 
+	<load-on-startup>2</load-on-startup> 
+  </servlet> 
+  <servlet-mapping> 
+	<servlet-name>cxf</servlet-name> 
+	<url-pattern>/services/*</url-pattern> 
+  </servlet-mapping> 
+  
+  <error-page>
+    <error-code>404</error-code>
+    <location>/UI/404.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/UI/500.jsp</location>
+  </error-page>
+  
+  <welcome-file-list>
+      <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

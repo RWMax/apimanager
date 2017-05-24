@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+    
+    <!-- 加入ehcache -->
+   	<bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+   		<property name="cacheManagerConfigFile" value="classpath:org/apache/shiro/cache/ehcache/ehcache.xml"></property>
+   	</bean>
+   	
+   	<!-- 定义会话验证调度器，用于定期的验证会话是否已过期，如果过期将停止会话 -->
+   	<bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
+   		<property name="sessionValidationInterval" value="60000"></property>
+   		<property name="sessionManager" ref="shiroSessionManager"></property>
+   	</bean>
+   	
+   	<!-- 自己管理的会话cookie -->
+   	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+   		<property name="name" value="API-SESSIONID"></property>
+   		<property name="httpOnly" value="true"></property>
+   		<property name="maxAge" value="-1"></property><!-- 生命周期由浏览器安排,浏览器关机则失效 -->
+   	</bean>
+   	
+   	<!-- sessionDao,会话存储/持久化  Shiro提供了使用Ehcache进行会话存储，Ehcache可以配合TerraCotta实现容器无关的分布式集群。 -->
+   	<bean id="ehcacheSessionDao" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+   		<property name="cacheManager" ref="shiroCacheManager"></property>
+   		<property name="activeSessionsCacheName" value="shiro-activeSessionCache"></property>
+   	</bean>
+   	
+   	<!-- sessionManager用于Web环境的实现，可以替代ServletContainerSessionManager，自己维护着会话，直接废弃了Servlet容器的会话管理。 -->
+   	<bean id="shiroSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+   		<property name="sessionDAO" ref="ehcacheSessionDao"></property>
+   		<!-- 会话过期时间 半天(12小时) 默认30分钟 -->
+   		<property name="globalSessionTimeout" value="${system.sessionTimeOut:18000000}"></property>
+   		<property name="sessionIdCookie" ref="sessionIdCookie"></property>
+   		<!-- 开启会话验证调度器，用于定期的验证会话是否已过期，如果过期将停止会话 -->
+   		<!-- <property name="sessionValidationScheduler" ref="sessionValidationScheduler"></property> -->
+   		<property name="sessionValidationSchedulerEnabled" value="false"></property>
+   	</bean>
+    
+    <!-- 自定义用户密码验证 -->
+    <bean id="myCredentialsMatcher" class="com.yinhai.ec.shiro.BaseCredentialsMatcher"></bean>
+    
+    <!-- 继承自AuthorizingRealm的自定义Realm,即指定Shiro验证用户登录的类为自定义的类 -->  
+    <bean id="myRealm" class="com.yinhai.ec.shiro.BaseRealm">
+    	<property name="credentialsMatcher" ref="myCredentialsMatcher"></property>
+    	<property name="cacheManager" ref="shiroCacheManager"></property>
+    </bean>
+    
+   	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->  
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+   	<!-- 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证 -->  
+	<!-- 配置以下两个bean即可实现此功能 -->  
+	<!-- Enable Shiro Annotations for Spring-configured beans. Only run after the lifecycleBeanProcessor has run -->  
+   	<!-- <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">  
+    	<property name="proxyTargetClass" value="true" />   
+    </bean> -->
+    <!-- <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">  
+        <property name="securityManager" ref="securityManager"/>  
+    </bean> -->
+   	
+    <!-- 这里主要是设置自定义的单Realm应用,若有多个Realm,可使用'realms'属性代替 -->  
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="sessionManager" ref="shiroSessionManager"></property>
+        <property name="realm" ref="myRealm"></property>
+    </bean>
+    
+    <bean id="accessFilter" class="com.yinhai.ec.base.filter.BaseAccessCheckFilter"></bean>
+    
+    <!-- Web应用中,Shiro可控制的Web请求必须经过Shiro主过滤器的拦截,Shiro对基于Spring的Web应用提供了完美的支持 -->  
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+    	<property name="securityManager" ref="securityManager"></property>
+    	<property name="loginUrl" value="/login"></property>
+    	<property name="successUrl" value="/index"></property>
+    	<property name="unauthorizedUrl" value="/UI/accessdenied.jsp"></property>
+    	<property name="filters">
+    		<map>
+    			<entry key="accessFilter" value-ref="accessFilter"></entry>
+    		</map>
+    	</property>
+    	<property name="filterChainDefinitions">
+    		<value>
+				/UI/**						= anon
+				/statics/**					= anon
+				/mock/**					= anon
+				/services/**				= anon
+				/doLogin					= anon
+				/logout						= anon
+				/u/**						= anon
+				<!-- 这下面添加需要进行URL访问控制的地址 -->
+	           	/**							= accessFilter,authc
+			</value>
+    	</property>
+    </bean>
+</beans>

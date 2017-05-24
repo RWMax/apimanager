@@ -1,0 +1,4 @@
+@CHARSET "UTF-8";
+.content-box{ padding: 60px 80px; }
+/* .tab-content table td {border-top:0;} */
+.nav-tabs{border-bottom:0;}

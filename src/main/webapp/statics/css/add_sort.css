@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+.content-box{ width: 300px;margin: auto; }
+.content-box .title{ height: 50px;line-height: 50px;font-weight: bold; }
+.content-box input[type="text"]{ border: 1px solid #ccc;height: 40px;padding: 0px 5px; }
+.content-box input:focus { border-color: #309a04;outline: 1;}
+.content-box .enbox input{ width: 300px; }
+.content-box .btnbox button{ margin: 0 20px; }
+.content-box .btnbox{ margin-top: 20px; }

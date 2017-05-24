@@ -1,0 +1,4 @@
+@CHARSET "UTF-8";
+.content-box{ padding: 60px 80px; }
+.content-box form{ margin-top: 40px; }
+.content-box form textarea{ height:185px; }

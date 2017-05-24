@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="project" >
+  <!-- 查询属于我的项目 自己创建的和项目邀请的 -->
+  <select id="getMyProjects" parameterType="map" resultType="map">
+      SELECT
+		pu.projectId,
+		pu.userId,
+		pu.`status`,
+		pu.editable,
+		p.`name` AS project_name,
+		p.permission AS project_permission
+	FROM
+		project_user AS pu
+	LEFT JOIN project p ON pu.projectId = p.id
+	WHERE 1=1
+	<![CDATA[ AND pu.`status` != #{pu_status,jdbcType=VARCHAR} ]]>
+	AND p.`status` = #{p_status,jdbcType=VARCHAR}
+	AND pu.userId = #{userid,jdbcType=INTEGER}
+  </select>
+  <!-- 查询我的项目 团队邀请 -->
+  <select id="getMyTeamProjects" parameterType="map" resultType="map">
+      SELECT
+		pu.projectId,
+		pu.userId,
+		pu.`status`,
+		pu.editable,
+		p.`name` AS project_name,
+		p.permission AS project_permission
+	FROM
+		project_user AS pu
+	LEFT JOIN project p ON pu.projectId = p.id
+	WHERE 1=1
+	AND pu.`status` = #{pu_status,jdbcType=VARCHAR}
+	AND p.`status` = #{p_status,jdbcType=VARCHAR}
+	AND pu.userId = #{userid,jdbcType=INTEGER}
+  </select>
+  <!-- 查询公共项目 排除我创建的公共项目 -->
+  <select id="getPublicProjects" parameterType="map" resultType="map">
+     SELECT
+		p.id AS projectId,
+		p.`name` AS project_name,
+		p.userId,
+		p.`status`,
+		p.permission AS project_permission
+	FROM
+		project AS p
+	WHERE 1 = 1
+	AND p.`status` = #{p_status,jdbcType=VARCHAR}
+	AND p.permission = #{p_permission,jdbcType=VARCHAR}
+	<![CDATA[ AND p.userId != #{userid,jdbcType=INTEGER} ]]>
+  </select>
+  
+  <select id="selectCountByName" resultType="integer" parameterType="java.lang.String" >
+    select 
+    	count(1)
+    from project
+    where name = #{value,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="projectMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Project_Column_List" />
+    from project
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="selectById" resultType="map" parameterType="java.lang.Integer">
+        select
+        <include refid="Project_Column_List"/>
+        from project
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+  
+  <select id="queryProjectUser" resultMap="projectUserMap" parameterType="map" >
+    select 
+    <include refid="ProjectUser_Column_List" />
+    from project_user
+    where projectId = #{projectId,jdbcType=INTEGER}
+    and userId = #{userId,jdbcType=INTEGER}
+  </select>
+    <select id="queryProjectUsers" resultType="map" parameterType="map">
+        select
+        <include refid="ProjectUser_Column_List"/>
+        from project_user
+        where projectId = #{projectId,jdbcType=INTEGER}
+    </select>
+  
+  <select id="getProUsersByProjectId" parameterType="integer" resultType="java.util.HashMap">
+	SELECT
+		pu.projectId,
+		pu.userId,
+		pu.`status`,
+		u.email,
+		u.nickname
+	FROM
+	project_user AS pu
+	INNER JOIN `user` AS u ON pu.userId = u.id
+	WHERE pu.projectId = #{id,jdbcType=INTEGER}
+	ORDER BY pu.createTime DESC
+  </select>
+ 
+  <!-- 查询默认环境 -->
+  <select id="queryDefaultEnv" parameterType="map" resultType="map">
+  		select
+  			a.envId,<!-- 环境id -->
+  			b.name
+  		from project a, environments b
+  		where a.id = #{projectId}
+  		and a.envId  = b.id
+  </select>
+  
+  <!--查询参数列表  -->
+  <select id="getParamList" parameterType="java.lang.Integer" resultType="map">
+  	 select
+  	 	b.paramName,
+  	 	b.paramValue
+  	 from project a, environments_list b
+  	 where a.id = #{projectId}
+  	 and a.envId = b.envId
+  </select>
+  <select id="getUserCountFromProUser" resultType="integer" parameterType="map">
+    select count(1) from project_user
+	where projectId = #{projectId,jdbcType=INTEGER}
+    and userId = #{userId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteProUser" parameterType="map" >
+    delete from project_user
+    where projectId = #{projectId,jdbcType=INTEGER}
+    and userId = #{userId,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 新增项目 -->
+  <insert id="insertProject" parameterType="com.yinhai.api.common.domain.Project" useGeneratedKeys="true" keyProperty="id">
+    insert into project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="teamid != null" >
+        teamId,
+      </if>
+      createTime,
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="permission != null" >
+        permission,
+      </if>
+      <if test="envid != null" >
+        envId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="teamid != null" >
+        #{teamid,jdbcType=INTEGER},
+      </if>
+      now(),
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null" >
+        #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="envid != null" >
+        #{envid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+    <insert id="insertProjectInfo" parameterType="map">
+        insert into project(
+            id,
+            name,
+            description,
+            teamId,
+            createTime,
+            userId,
+            status,
+            permission,
+            envId
+        )VALUES (
+            #{id},
+            #{name},
+            #{description},
+            #{teamId},
+            #{createTime},
+            #{userId},
+            #{status},
+            #{permission},
+            #{envId}
+        )
+  </insert>
+  
+  <update id="updateProject" parameterType="com.yinhai.api.common.domain.Project">
+    update project
+    set name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      teamId = #{teamid,jdbcType=INTEGER},
+      permission = #{permission,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 新增项目成员 -->
+  <insert id="insertProjectUser" parameterType="com.yinhai.api.common.domain.ProjectUser" >
+    insert into project_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="projectid != null" >
+        projectId,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+        createTime,
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="editable != null" >
+        editable,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="projectid != null" >
+        #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+        now(),
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="editable != null" >
+        #{editable,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+    <!--带主键insert-->
+    <insert id="insertProjectUserInfo" parameterType="map">
+        insert into project_user(
+        id,
+        projectId,
+        userId,
+        createTime,
+        status,
+        editable
+        )VALUES (
+        #{id},
+        #{projectId},
+        #{userId},
+        #{createTime},
+        #{status},
+        #{editable}
+        )
+    </insert>
+	<!-- 设置默认环境 -->
+  <update id="updateDefaultEnv" parameterType="map">
+		update project set
+		envId = #{envId,jdbcType=INTEGER}
+		where id = #{projectId}
+  </update>
+  <update id="updateProUser" parameterType="com.yinhai.api.common.domain.ProjectUser" >
+    update project_user
+    <set >
+      <if test="projectid != null" >
+        projectId = #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="editable != null" >
+        editable = #{editable,jdbcType=CHAR},
+      </if>
+    </set>
+    where projectId = #{projectid,jdbcType=INTEGER}
+    and userId = #{userid,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteProject" parameterType="java.lang.Integer" >
+    delete from project
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteProjectUser" parameterType="java.lang.Integer" >
+    delete from project_user
+    where projectId = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <resultMap id="projectMap" type="com.yinhai.api.common.domain.Project" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="teamId" property="teamid" jdbcType="INTEGER" />
+      <result column="createTime" property="createtime" jdbcType="DATE"/>
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="envId" jdbcType="INTEGER" property="envid" />
+  </resultMap>
+  
+  <sql id="Project_Column_List" >
+      id, name, description, teamId,DATE_FORMAT(createTime,"%Y-%m-%d %T") AS createTime, userId, status, permission,
+      envId
+  </sql>
+  
+  <resultMap id="projectUserMap" type="com.yinhai.api.common.domain.ProjectUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="projectId" property="projectid" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="editable" property="editable" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="ProjectUser_Column_List" >
+      id, projectId, userId,DATE_FORMAT(createTime,"%Y-%m-%d %T") AS createTime, status, editable
+  </sql>
+</mapper>

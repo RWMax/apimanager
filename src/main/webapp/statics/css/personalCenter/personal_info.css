@@ -1,0 +1,17 @@
+@CHARSET "UTF-8"; 
+/*个人信息*/
+.row{ padding-top: 15px; }
+.content-box{ padding: 80px; }
+img{ border-radius: 50%;margin-bottom: 15px;width: 100px;height: 100px; }
+.h-text{ padding-top: 50px; }
+.n-text{ padding-top: 10px; }
+.brb{ border-bottom: 1px solid #efefef; }
+input[type="text"]{ margin-bottom: 15px; }
+#confirm{ margin-top: 15px; }
+h3{ padding-bottom: 20px; }
+/*安全设置*/
+.security p{ line-height: 30px; }
+.security .btn-info{ margin-bottom: 10px; }
+/*关联账户*/
+.box{ border: 1px solid #efefef;height: 110px;width: 300px;padding-top: 20px;margin-top: 15px;}
+.box button{ border-radius:20px; }

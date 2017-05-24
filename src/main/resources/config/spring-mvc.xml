@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+    
+    <!-- 默认的注解映射的支持 -->
+	<mvc:annotation-driven validator="validator">
+		
+	</mvc:annotation-driven>
+	<!-- 对静态资源文件的访问(使用默认的Servlet来响应静态文件。) -->  
+    <mvc:default-servlet-handler/>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    	<property name="basenames">
+    		<list>
+    			<value>classpath:config/validator/messages</value>
+    		</list>
+    	</property>
+    	<property name="defaultEncoding" value="UTF-8"></property>
+    	<property name="useCodeAsDefaultMessage" value="true"></property>
+    	<property name="cacheSeconds" value="12"></property>
+    </bean>
+	
+	<!-- JSR303 Bean校验器   -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+    	<property name="providerClass" value="org.hibernate.validator.HibernateValidator"></property>
+    	<property name="validationMessageSource" ref="messageSource"></property>
+    </bean>
+    
+	<!-- 自动扫描的包名 -->  
+    <context:component-scan base-package="com.yinhai.*" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
+    </context:component-scan>
+    
+	<!-- 视图解析类(必须) -->  
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+	    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>  
+	    <property name="prefix" value=""/>
+	    <property name="suffix" value=""/><!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑  -->
+	</bean>
+	<!-- 文件上传的支持 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<property name="defaultEncoding" value="UTF-8"></property>
+    	<property name="maxUploadSize" value="10485760"></property>
+    	<!--resolveLazily属性启用是为了推迟文件解析，以便在UploadAction 中捕获文件大小异常-->  
+        <property name="resolveLazily" value="true"/>
+    </bean>
+	
+	<!-- 拦截器 -->  
+    <!-- <mvc:interceptors>
+    	<mvc:interceptor>
+    		这里定义需要进行安全管理的URL地址
+    		<mvc:mapping path="/demo/**"/>
+    		<mvc:mapping path="/admin/**"/>
+    		<bean class="com.hyman.base.mvc.interceptor.ShiroCoreInterceptor" />  
+    	</mvc:interceptor>
+    </mvc:interceptors> -->
+    
+    <!-- 自定义异常处理 -->
+    <bean id="exceptionResolver" class="com.yinhai.ec.base.exception.resolver.BaseHandlerExceptionResolver">
+        <property name="debugModel" value="true"></property>
+    </bean>
+</beans>
