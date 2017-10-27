@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="team" >
-  <resultMap id="TeamMap" type="com.yinhai.api.common.domain.Team" >
+  <resultMap id="TeamMap" type="com.liuht.api.common.domain.Team" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
@@ -9,7 +9,7 @@
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="TeamUserMap" type="com.yinhai.api.common.domain.TeamUser" >
+  <resultMap id="TeamUserMap" type="com.liuht.api.common.domain.TeamUser" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="teamId" property="teamid" jdbcType="INTEGER" />
     <result column="userId" property="userid" jdbcType="INTEGER" />
@@ -34,14 +34,14 @@
     where name = #{value,jdbcType=VARCHAR}
   </select>
   
-  <delete id="deleteTeamUser" parameterType="com.yinhai.api.common.domain.TeamUser">
+  <delete id="deleteTeamUser" parameterType="com.liuht.api.common.domain.TeamUser">
   	delete from team_user
     where teamId = #{teamid,jdbcType=INTEGER}
     and userId = #{userid,jdbcType=INTEGER}
   </delete>
   
   <!-- 新增团队成员 -->
-  <insert id="insertTeamUser" parameterType="com.yinhai.api.common.domain.TeamUser">
+  <insert id="insertTeamUser" parameterType="com.liuht.api.common.domain.TeamUser">
     insert into team_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="teamid != null" >
@@ -69,7 +69,7 @@
     </trim>
   </insert>
   <!-- 新增团队 -->
-  <insert id="insertTeam" parameterType="com.yinhai.api.common.domain.Team" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertTeam" parameterType="com.liuht.api.common.domain.Team" useGeneratedKeys="true" keyProperty="id">
     insert into team
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="name != null" >

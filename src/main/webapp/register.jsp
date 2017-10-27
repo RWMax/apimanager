@@ -9,8 +9,6 @@
 <body>
     <div class="middle-box text-center loginscreen  animated fadeInDown">
         <div>
-            <div class="logo"></div>
-
             <div class="m-t">
                  <div class="form-group">
                     <input type="text" class="form-control" id="nickname" placeholder="输入姓名方便团队识别" required="true">

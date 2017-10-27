@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
-		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+
+
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
     
     <!-- 默认的注解映射的支持 -->
@@ -17,7 +15,7 @@
 	</mvc:annotation-driven>
 	<!-- 对静态资源文件的访问(使用默认的Servlet来响应静态文件。) -->  
     <mvc:default-servlet-handler/>
-	
+
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
     	<property name="basenames">
     		<list>
@@ -36,7 +34,7 @@
     </bean>
     
 	<!-- 自动扫描的包名 -->  
-    <context:component-scan base-package="com.yinhai.*" use-default-filters="false">
+    <context:component-scan base-package="com.liuht.*" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
     </context:component-scan>
@@ -66,7 +64,7 @@
     </mvc:interceptors> -->
     
     <!-- 自定义异常处理 -->
-    <bean id="exceptionResolver" class="com.yinhai.ec.base.exception.resolver.BaseHandlerExceptionResolver">
+    <bean id="exceptionResolver" class="com.liuht.ec.base.exception.resolver.BaseHandlerExceptionResolver">
         <property name="debugModel" value="true"></property>
     </bean>
 </beans>

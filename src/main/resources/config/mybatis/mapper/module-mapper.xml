@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="module" >
-  <resultMap id="moduleMap" type="com.yinhai.api.common.domain.Module" >
+  <resultMap id="moduleMap" type="com.liuht.api.common.domain.Module" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="lastUpdateTime" property="lastupdatetime" jdbcType="DATE"/>
     <result column="projectId" property="projectid" jdbcType="INTEGER" />
     <result column="createTime" property="createtime" jdbcType="DATE"/>
   </resultMap>
-  <resultMap id="moduleMapWithBLOBs" type="com.yinhai.api.common.domain.ModuleWithBLOBs" extends="moduleMap" >
+  <resultMap id="moduleMapWithBLOBs" type="com.liuht.api.common.domain.ModuleWithBLOBs" extends="moduleMap" >
     <result column="requestHeaders" property="requestheaders" jdbcType="LONGVARCHAR" />
     <result column="requestArgs" property="requestargs" jdbcType="LONGVARCHAR" />
   </resultMap>
@@ -42,7 +42,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   
-   <insert id="insertModule" parameterType="com.yinhai.api.common.domain.ModuleWithBLOBs" useGeneratedKeys="true" keyProperty="id">
+   <insert id="insertModule" parameterType="com.liuht.api.common.domain.ModuleWithBLOBs" useGeneratedKeys="true" keyProperty="id">
     insert into module
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="name != null" >
@@ -97,7 +97,7 @@
     #{requestArgs}
     )
   </insert>
-  <update id="updateModule" parameterType="com.yinhai.api.common.domain.ModuleWithBLOBs" >
+  <update id="updateModule" parameterType="com.liuht.api.common.domain.ModuleWithBLOBs" >
     update module
     <set >
       <if test="name != null" >

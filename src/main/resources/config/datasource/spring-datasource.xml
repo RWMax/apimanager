@@ -60,7 +60,7 @@
 	
 	<!-- 事务配置切入点 -->
 	<!-- <aop:config>
-		<aop:pointcut expression="* com.yinhai.health.service.impl.*.*(..)" id="perform"/>
+		<aop:pointcut expressioncom.liuhthai.health.service.impl.*.*(..)" id="perform"/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="perform"/>
 	</aop:config> -->
 	
@@ -84,5 +84,5 @@
 	</bean>
 	
 	<!-- 设置baseService -->
-	<bean id="baseService" class="com.yinhai.ec.base.service.impl.BaseServiceImpl" abstract="true"></bean>
+	<bean id="baseService" class="com.liuht.ec.base.service.impl.BaseServiceImpl" abstract="true"></bean>
 </beans>

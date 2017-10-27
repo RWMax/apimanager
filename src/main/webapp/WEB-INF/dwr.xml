@@ -4,7 +4,7 @@
 <dwr>
   <allow>
     <create creator="new" javascript="MessagePush">
-      <param name="class" value="com.yinhai.plugin.dwr.message.MessagePush"/>
+      <param name="class" value="com.liuht.plugin.dwr.message.MessagePush"/>
     </create>
    <!--  <create creator="spring" javascript="CaptchaProducer">
 	  <param name="beanName" value="captchaProducer"/>

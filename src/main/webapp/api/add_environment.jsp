@@ -12,8 +12,8 @@
 		<div class="text-center fs-18 title">添加新环境</div>
 		<div class="detail">
 			<p>环境变量运行在URL中,你可以配置多个(线上、灰度、开发)环境变量。在URL中使用方式$变量名$,例：</p>
-			<p>线上环境：prefix => http://www.xiaoyaoji.com.cn 则</p>
-			<p>请求URL：$prefix$/say => http://www.xiaoyaoji.com.cn/say</p>
+			<p>线上环境：prefix => http://www.XXXX.com.cn 则</p>
+			<p>请求URL：$prefix$/say => http://www.XXXX.com.cn/say</p>
 		</div>
 		<div class="enbox">
 			<input type="text" id="env_name" placeholder="请输入环境名称"/>

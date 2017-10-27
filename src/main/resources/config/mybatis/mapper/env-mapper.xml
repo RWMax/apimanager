@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="api_env">
-	<resultMap id="envMap" type="com.yinhai.api.common.domain.Environments">
+	<resultMap id="envMap" type="com.liuht.api.common.domain.Environments">
 		<result column="id" property="id"/>
 		<result column="name" property="name"/>
 	</resultMap>
-	<resultMap id="environListMap" type="com.yinhai.api.common.domain.EnvironmentsList">
+	<resultMap id="environListMap" type="com.liuht.api.common.domain.EnvironmentsList">
 		<result column="paramName" property="paramname"/>
 		<result column="paramValue" property="paramvalue"/>
 	</resultMap>

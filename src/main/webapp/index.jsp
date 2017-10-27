@@ -16,7 +16,6 @@
      <!-- 左侧导航开始 -->
 	 <nav class="navbar-default navbar-static-side" role="navigation">
 	    <div class="left-nav float-l">
-	    	<div class="logo"></div>
 	    	<div class="search-box pd-left">
 	    		<i class="fa fa-search fs-16"></i>
 	    		<input type="text" class="fs-12 color-3" placeholder="快速查找项目">

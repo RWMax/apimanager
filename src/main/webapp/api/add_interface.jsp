@@ -1,5 +1,5 @@
 <%@page import="com.alibaba.fastjson.JSONArray"%>
-<%@page import="com.yinhai.api.common.domain.InterfaceWithBLOBs"%>
+<%@page import="com.liuht.api.common.domain.InterfaceWithBLOBs"%>
 <%@ page import="com.alibaba.fastjson.JSONObject" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>

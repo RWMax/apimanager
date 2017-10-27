@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="interface" >
-  <resultMap id="BaseResultMap" type="com.yinhai.api.common.domain.Interface" >
+  <resultMap id="BaseResultMap" type="com.liuht.api.common.domain.Interface" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
@@ -19,7 +19,7 @@
     <result column="protocol" property="protocol" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="CHAR" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.yinhai.api.common.domain.InterfaceWithBLOBs" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.liuht.api.common.domain.InterfaceWithBLOBs" extends="BaseResultMap" >
    <result column="example" jdbcType="LONGVARCHAR" property="example" />
     <result column="requestHeaders" jdbcType="LONGVARCHAR" property="requestheaders" />
     <result column="requestArgs" jdbcType="LONGVARCHAR" property="requestargs" />
@@ -70,7 +70,7 @@
     where folderId = #{id,jdbcType=INTEGER}
     and status = 'ENABLE'
   </select>
-  <resultMap id="WSMap" type="com.yinhai.api.common.domain.InterfaceWS" >
+  <resultMap id="WSMap" type="com.liuht.api.common.domain.InterfaceWS" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="apiId" property="apiid" jdbcType="INTEGER" />
     <result column="targetNamespace" property="targetnamespace" jdbcType="VARCHAR" />
@@ -93,7 +93,7 @@
     where apiId = #{id,jdbcType=INTEGER}
   </delete>
   
-  <insert id="insertApi" parameterType="com.yinhai.api.common.domain.InterfaceWithBLOBs" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertApi" parameterType="com.liuht.api.common.domain.InterfaceWithBLOBs" useGeneratedKeys="true" keyProperty="id">
     insert into interface (name, description, 
       folderId, url, requestMethod, 
       contentType, requestRootElement, responseRootElement, 
@@ -155,7 +155,7 @@
     #{status}
     )
   </insert>
-  <insert id="insertApiWs" parameterType="com.yinhai.api.common.domain.InterfaceWS" >
+  <insert id="insertApiWs" parameterType="com.liuht.api.common.domain.InterfaceWS" >
     insert into interface_ws (apiId, targetNamespace, 
       endpointAddress, methodName)
     values (#{apiid,jdbcType=INTEGER}, #{targetnamespace,jdbcType=VARCHAR}, 
@@ -178,7 +178,7 @@
     )
   </insert>
   
-  <update id="updateApi" parameterType="com.yinhai.api.common.domain.InterfaceWithBLOBs">
+  <update id="updateApi" parameterType="com.liuht.api.common.domain.InterfaceWithBLOBs">
     update interface
     <set>
       <if test="name != null">
@@ -240,7 +240,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <update id="updateApiWs" parameterType="com.yinhai.api.common.domain.InterfaceWS" >
+  <update id="updateApiWs" parameterType="com.liuht.api.common.domain.InterfaceWS" >
     update interface_ws
     <set >
       <if test="targetnamespace != null" >

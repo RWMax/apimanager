@@ -132,7 +132,7 @@
   </delete>
   
   <!-- 新增项目 -->
-  <insert id="insertProject" parameterType="com.yinhai.api.common.domain.Project" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertProject" parameterType="com.liuht.api.common.domain.Project" useGeneratedKeys="true" keyProperty="id">
     insert into project
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="name != null" >
@@ -207,7 +207,7 @@
         )
   </insert>
   
-  <update id="updateProject" parameterType="com.yinhai.api.common.domain.Project">
+  <update id="updateProject" parameterType="com.liuht.api.common.domain.Project">
     update project
     set name = #{name,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
@@ -217,7 +217,7 @@
   </update>
   
   <!-- 新增项目成员 -->
-  <insert id="insertProjectUser" parameterType="com.yinhai.api.common.domain.ProjectUser" >
+  <insert id="insertProjectUser" parameterType="com.liuht.api.common.domain.ProjectUser" >
     insert into project_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="projectid != null" >
@@ -274,7 +274,7 @@
 		envId = #{envId,jdbcType=INTEGER}
 		where id = #{projectId}
   </update>
-  <update id="updateProUser" parameterType="com.yinhai.api.common.domain.ProjectUser" >
+  <update id="updateProUser" parameterType="com.liuht.api.common.domain.ProjectUser" >
     update project_user
     <set >
       <if test="projectid != null" >
@@ -307,7 +307,7 @@
     where projectId = #{id,jdbcType=INTEGER}
   </delete>
   
-  <resultMap id="projectMap" type="com.yinhai.api.common.domain.Project" >
+  <resultMap id="projectMap" type="com.liuht.api.common.domain.Project" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
@@ -324,7 +324,7 @@
       envId
   </sql>
   
-  <resultMap id="projectUserMap" type="com.yinhai.api.common.domain.ProjectUser" >
+  <resultMap id="projectUserMap" type="com.liuht.api.common.domain.ProjectUser" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="projectId" property="projectid" jdbcType="INTEGER" />
     <result column="userId" property="userid" jdbcType="INTEGER" />

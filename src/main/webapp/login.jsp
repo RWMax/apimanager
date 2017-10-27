@@ -9,7 +9,6 @@
 <body>
     <div class="middle-box text-center loginscreen  animated fadeInDown">
         <div>
-            <div class="logo"></div>
             <div class="m-t" >
             	<form>
                 <div class="form-group">

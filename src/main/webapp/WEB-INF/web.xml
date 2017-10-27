@@ -86,7 +86,7 @@
 	  <!-- 自定义的scriptSession manager -->
 	  <init-param>
 	    <param-name>org.directwebremoting.extend.ScriptSessionManager</param-name>
-	    <param-value>com.yinhai.plugin.dwr.DWRScriptSessionManager</param-value>
+	    <param-value>com.liuht.plugin.dwr.DWRScriptSessionManager</param-value>
 	  </init-param>
 	  <!-- 开启 polling mode, 默认 poll rate 5000-->
 	  <init-param>

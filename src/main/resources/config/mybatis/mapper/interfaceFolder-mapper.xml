@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="interfacefolder" >
-  <resultMap id="BaseResultMap" type="com.yinhai.api.common.domain.InterfaceFolder" >
+  <resultMap id="BaseResultMap" type="com.liuht.api.common.domain.InterfaceFolder" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="createTime" property="createtime" jdbcType="DATE"/>
@@ -43,7 +43,7 @@
       select count(1) from interface_folder where moduleId = #{id,jdbcType=INTEGER}
   </select>
   
-  <insert id="insertFolder" parameterType="com.yinhai.api.common.domain.InterfaceFolder" >
+  <insert id="insertFolder" parameterType="com.liuht.api.common.domain.InterfaceFolder" >
     insert into interface_folder
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="name != null" >
@@ -86,7 +86,7 @@
     #{projectId}
     )
   </insert>
-  <update id="updateFolder" parameterType="com.yinhai.api.common.domain.InterfaceFolder" >
+  <update id="updateFolder" parameterType="com.liuht.api.common.domain.InterfaceFolder" >
     update interface_folder
     <set >
       <if test="name != null" >

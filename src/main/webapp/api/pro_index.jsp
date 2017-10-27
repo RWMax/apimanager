@@ -320,7 +320,7 @@
 				
 				<div class="footer">
 					<div class="pull-right">
-						&copy<a href="http://www.yinhai.com/" target="_blank">久远银海</a>
+						&copy<a href="http://www.yinhai.com/" target="_blank"></a>
 					</div>
 				</div>
 			</div>

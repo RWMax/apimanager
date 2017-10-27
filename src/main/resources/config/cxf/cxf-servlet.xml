@@ -5,11 +5,11 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd 
 	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	
-	<bean id="mockService" class="com.yinhai.api.ws.impl.MockService">
+	<bean id="mockService" class="com.liuht.api.ws.impl.MockService">
 		<property name="apiService" ref="apiServiceImpl"/>
 	</bean>
 	
-	<jaxws:server serviceClass="com.yinhai.api.ws.IMockService" address="/mockWS">
+	<jaxws:server serviceClass="com.liuht.api.ws.IMockService" address="/mockWS">
 		<jaxws:serviceBean>
 			<ref bean="mockService"/>
 		</jaxws:serviceBean>

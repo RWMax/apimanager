@@ -39,10 +39,10 @@
    	</bean>
     
     <!-- 自定义用户密码验证 -->
-    <bean id="myCredentialsMatcher" class="com.yinhai.ec.shiro.BaseCredentialsMatcher"></bean>
+    <bean id="myCredentialsMatcher" class="com.liuht.ec.shiro.BaseCredentialsMatcher"></bean>
     
     <!-- 继承自AuthorizingRealm的自定义Realm,即指定Shiro验证用户登录的类为自定义的类 -->  
-    <bean id="myRealm" class="com.yinhai.ec.shiro.BaseRealm">
+    <bean id="myRealm" class="com.liuht.ec.shiro.BaseRealm">
     	<property name="credentialsMatcher" ref="myCredentialsMatcher"></property>
     	<property name="cacheManager" ref="shiroCacheManager"></property>
     </bean>
@@ -65,7 +65,7 @@
         <property name="realm" ref="myRealm"></property>
     </bean>
     
-    <bean id="accessFilter" class="com.yinhai.ec.base.filter.BaseAccessCheckFilter"></bean>
+    <bean id="accessFilter" class="com.liuht.ec.base.filter.BaseAccessCheckFilter"></bean>
     
     <!-- Web应用中,Shiro可控制的Web请求必须经过Shiro主过滤器的拦截,Shiro对基于Spring的Web应用提供了完美的支持 -->  
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
