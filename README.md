@@ -1,5 +1,3 @@
-# API接口管理系统
-
 ## 部署步骤
 1. download源代码
 2. 新建mysql数据库apimanager，导入webapp下apimanager.sql
